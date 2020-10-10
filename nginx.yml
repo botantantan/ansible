@@ -17,22 +17,22 @@
       enabled: yes
 
   - name: copy the nginx config file and restart nginx
-      copy:
-        src: static_site.cfg
-        dest: /etc/nginx/sites-available/static_site.cfg
+    copy:
+      src: static_site.cfg
+      dest: /etc/nginx/sites-available/static_site.cfg
 
   - name: create symlink
-      file:
-        src: /etc/nginx/sites-available/static_site.cfg
-        dest: /etc/nginx/sites-enabled/default
-        state: link
+    file:
+      src: /etc/nginx/sites-available/static_site.cfg
+      dest: /etc/nginx/sites-enabled/default
+      state: link
 
   - name: copy the content of the web site
-      copy:
-        src: static-site-src/
-        dest: /home/botan/static-site
+    copy:
+      src: static-site-src/
+      dest: /home/botan/static-site
 
   - name: restart nginx
-      service:
-        name: nginx
-        state: restarted
+    service:
+      name: nginx
+      state: restarted
