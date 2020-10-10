@@ -1,0 +1,25 @@
+---
+
+- hosts: all
+  become: true
+  tasks:
+
+  - name: create user johndoe
+    user:
+      name: johndoe
+      password: "{{ 'johndoe' | password_hash('sha512') }}"
+      groups: root
+      shell: /bin/bash
+
+  - name: add ssh key for johndoe
+    authorized_key:
+      user: johndoe
+      key: "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIE6i0Ry8sGWVZcFlLqdEMt/LtibPwIjEZ4dtdVvB9Xgp ansible"
+
+  - name: add sudoers file for johndoe
+    copy:
+      src: sudoer_johndoe
+      dest: /etc/sudoers.d/johndoe
+      owner: root
+      group: root
+      mode: 0440
